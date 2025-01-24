@@ -4,6 +4,7 @@ import org.example.entities.ElementoCatalogo;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.time.LocalDate;
 import java.util.List;
 
 public class ElementoDAO {
@@ -74,5 +75,12 @@ public class ElementoDAO {
     /*public List<ElementoCatalogo> findElementiInPrestitoDaTesseraUtente(long numeroTesseraUtente) {
 
     }*/
+
+    public List<ElementoCatalogo> findPrestitiScadutiENonRestituiti() {
+        LocalDate today = LocalDate.now();
+        Query q = em.createQuery("SELECT p FROM Prestito p WHERE p.dataRestituzioneEffettiva IS NULL AND p.dataRestituzionePrevista < :today");
+        q.setParameter("today", today);
+        return q.getResultList();
+    }
 }
 
