@@ -1,13 +1,25 @@
 package org.example.entities;
 
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+@Entity
+@Table(name = "utenti")
 public class Utente {
+    @Id
+    @GeneratedValue
     private long id;
+    @Column(nullable = false)
     private String nome;
+    @Column(nullable = false)
     private String cognome;
     private LocalDate dataDiNascita;
-    private long numeroDiTessera; //unique
+    @Column(nullable = false, unique = true)
+    private long numeroDiTessera;
+    @OneToMany(mappedBy = "utente")
+    private List<Prestito> prestiti = new ArrayList<>(); //un utente può avere più prestiti
 
     public Utente() {
     }
@@ -59,14 +71,23 @@ public class Utente {
         this.numeroDiTessera = numeroDiTessera;
     }
 
+    public List<Prestito> getPrestiti() {
+        return prestiti;
+    }
+
+    public void setPrestiti(List<Prestito> prestiti) {
+        this.prestiti = prestiti;
+    }
+
     @Override
     public String toString() {
-        return "Utente(" +
+        return "Utente{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
                 ", cognome='" + cognome + '\'' +
                 ", dataDiNascita=" + dataDiNascita +
                 ", numeroDiTessera=" + numeroDiTessera +
-                ')';
+                ", prestiti=" + prestiti +
+                '}';
     }
 }

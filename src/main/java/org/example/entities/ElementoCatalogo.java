@@ -1,14 +1,31 @@
 package org.example.entities;
 
-public abstract class ElementoCatalogo {
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo_elemento", discriminatorType = DiscriminatorType.STRING)
+public abstract class ElementoCatalogo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(nullable = false, unique = true)
     private String isbn;
+
+    @Column(nullable = false)
     private String titolo;
+
     private int annoPubblicazione;
     private int numeroPagine;
 
-    public ElementoCatalogo(){}
+    @ManyToMany(mappedBy = "elementiPrestati")
+    private List<Prestito> prestiti = new ArrayList<>();
+
+    public ElementoCatalogo() {
+    }
 
     public ElementoCatalogo(String isbn, String titolo, int annoPubblicazione, int numeroPagine) {
         this.isbn = isbn;
@@ -57,14 +74,23 @@ public abstract class ElementoCatalogo {
         this.numeroPagine = numeroPagine;
     }
 
+    public List<Prestito> getPrestiti() {
+        return prestiti;
+    }
+
+    public void setPrestiti(List<Prestito> prestiti) {
+        this.prestiti = prestiti;
+    }
+
     @Override
     public String toString() {
-        return "info (" +
+        return "ElementoCatalogo{" +
                 "id=" + id +
                 ", isbn='" + isbn + '\'' +
                 ", titolo='" + titolo + '\'' +
                 ", annoPubblicazione=" + annoPubblicazione +
                 ", numeroPagine=" + numeroPagine +
-                ')';
+                ", prestiti=" + prestiti +
+                '}';
     }
 }

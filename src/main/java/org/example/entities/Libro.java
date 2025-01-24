@@ -1,6 +1,13 @@
 package org.example.entities;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "libri")
 public class Libro extends ElementoCatalogo {
+    @Column(nullable = false)
     private String autore;
     private String genere;
 

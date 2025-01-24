@@ -1,24 +1,47 @@
 package org.example.entities;
 
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+@Entity
+@Table(name = "prestiti")
 public class Prestito {
 
+    @Id
+    @GeneratedValue
     private long id;
-    private Utente utente; //relazione
-    private ElementoCatalogo elementoPrestato; //relazione
+
+    @ManyToOne
+    @JoinColumn(name = "utente_id", nullable = false)
+    private Utente utente; // ogni prestito ha un solo utente
+
+
+    @ManyToMany
+    @JoinTable(
+            name = "prestiti_elementicatalogo",
+            joinColumns = @JoinColumn(name ="prestito_id"),
+            inverseJoinColumns = @JoinColumn(name = "elementocatalogo_id")
+    )
+    private List<ElementoCatalogo> elementiPrestati = new ArrayList<>(); //relazione
+
+    @Column(nullable = false)
     private LocalDate dataInizioPrestito;
     private LocalDate dataRestituzionePrevista;
     private LocalDate dataRestituzioneEffettiva;
 
-    public Prestito(Utente utente, ElementoCatalogo elementoPrestato, LocalDate dataInizioPrestito) {
+    public Prestito(Utente utente, List<ElementoCatalogo> elementiPrestati, LocalDate dataInizioPrestito) {
         this.utente = utente;
-        this.elementoPrestato = elementoPrestato;
+        this.elementiPrestati = elementiPrestati;
         this.dataInizioPrestito = dataInizioPrestito;
         this.dataRestituzionePrevista = dataInizioPrestito.plusDays(30);
         /*non ho inserito la dataRestituzioneEffettiva perchè a logica quando creo un Prestito non conosco
         quando verrà effettivamente restituito il libro/rivista,
         ma posso settarlo successivamente quando accade l'evento.*/
+    }
+
+    public Prestito() {
     }
 
     public long getId() {
@@ -37,12 +60,12 @@ public class Prestito {
         this.utente = utente;
     }
 
-    public ElementoCatalogo getElementoPrestato() {
-        return elementoPrestato;
+    public List<ElementoCatalogo> getElementiPrestati() {
+        return elementiPrestati;
     }
 
-    public void setElementoPrestato(ElementoCatalogo elementoPrestato) {
-        this.elementoPrestato = elementoPrestato;
+    public void setElementiPrestati(List<ElementoCatalogo> elementiPrestati) {
+        this.elementiPrestati = elementiPrestati;
     }
 
     public LocalDate getDataInizioPrestito() {
@@ -67,5 +90,17 @@ public class Prestito {
 
     public void setDataRestituzioneEffettiva(LocalDate dataRestituzioneEffettiva) {
         this.dataRestituzioneEffettiva = dataRestituzioneEffettiva;
+    }
+
+    @Override
+    public String toString() {
+        return "Prestito{" +
+                "id=" + id +
+                ", utente=" + utente +
+                ", elementiPrestati=" + elementiPrestati +
+                ", dataInizioPrestito=" + dataInizioPrestito +
+                ", dataRestituzionePrevista=" + dataRestituzionePrevista +
+                ", dataRestituzioneEffettiva=" + dataRestituzioneEffettiva +
+                '}';
     }
 }
