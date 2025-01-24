@@ -1,6 +1,6 @@
 package org.example.entities;
 
-public class ElementoCatalogo {
+public abstract class ElementoCatalogo {
     private long id;
     private String isbn;
     private String titolo;
