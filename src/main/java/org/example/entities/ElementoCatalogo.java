@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "tipo_elemento", discriminatorType = DiscriminatorType.STRING)
 public abstract class ElementoCatalogo {
     @Id
@@ -20,9 +20,6 @@ public abstract class ElementoCatalogo {
 
     private int annoPubblicazione;
     private int numeroPagine;
-
-    @ManyToMany(mappedBy = "elementiPrestati")
-    private List<Prestito> prestiti = new ArrayList<>();
 
     public ElementoCatalogo() {
     }
@@ -74,13 +71,6 @@ public abstract class ElementoCatalogo {
         this.numeroPagine = numeroPagine;
     }
 
-    public List<Prestito> getPrestiti() {
-        return prestiti;
-    }
-
-    public void setPrestiti(List<Prestito> prestiti) {
-        this.prestiti = prestiti;
-    }
 
     @Override
     public String toString() {
@@ -90,7 +80,6 @@ public abstract class ElementoCatalogo {
                 ", titolo='" + titolo + '\'' +
                 ", annoPubblicazione=" + annoPubblicazione +
                 ", numeroPagine=" + numeroPagine +
-                ", prestiti=" + prestiti +
                 '}';
     }
 }

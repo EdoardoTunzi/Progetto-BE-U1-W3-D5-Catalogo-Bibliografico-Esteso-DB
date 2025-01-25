@@ -96,7 +96,7 @@ public class Prestito {
     public String toString() {
         return "Prestito{" +
                 "id=" + id +
-                ", utente=" + utente +
+                /*", utente=" + utente +*/
                 ", elementiPrestati=" + elementiPrestati +
                 ", dataInizioPrestito=" + dataInizioPrestito +
                 ", dataRestituzionePrevista=" + dataRestituzionePrevista +

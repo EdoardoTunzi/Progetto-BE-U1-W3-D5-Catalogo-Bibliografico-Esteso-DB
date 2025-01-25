@@ -18,8 +18,7 @@ public class Utente {
     private LocalDate dataDiNascita;
     @Column(nullable = false, unique = true)
     private long numeroDiTessera;
-    @OneToMany(mappedBy = "utente")
-    private List<Prestito> prestiti = new ArrayList<>(); //un utente può avere più prestiti
+
 
     public Utente() {
     }
@@ -71,13 +70,6 @@ public class Utente {
         this.numeroDiTessera = numeroDiTessera;
     }
 
-    public List<Prestito> getPrestiti() {
-        return prestiti;
-    }
-
-    public void setPrestiti(List<Prestito> prestiti) {
-        this.prestiti = prestiti;
-    }
 
     @Override
     public String toString() {
@@ -87,7 +79,6 @@ public class Utente {
                 ", cognome='" + cognome + '\'' +
                 ", dataDiNascita=" + dataDiNascita +
                 ", numeroDiTessera=" + numeroDiTessera +
-                ", prestiti=" + prestiti +
                 '}';
     }
 }
