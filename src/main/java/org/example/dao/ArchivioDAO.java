@@ -64,6 +64,7 @@ public class ArchivioDAO {
         em.getTransaction().begin();
         em.remove(e);
         em.getTransaction().commit();
+        System.out.println("Elemento con isbn: " + isbn + " rimosso con successo!");
     }
 
     //3- ricerca per isbn
@@ -94,9 +95,12 @@ public class ArchivioDAO {
         return q.getResultList();
     }
     //7- ricerca elementi attualmente in prestito dato un numero di tessera utente
-    /*public List<ElementoCatalogo> findElementiInPrestitoDaTesseraUtente(long numeroTesseraUtente) {
+    public List<ElementoCatalogo> findElementiInPrestitoByTesseraUtente(long numeroTessera) {
+        Query q = em.createQuery("SELECT e FROM Prestito p JOIN p.elementiPrestati e WHERE p.utente.numeroDiTessera = :numeroTessera AND p.dataRestituzioneEffettiva IS NULL");
+        q.setParameter("numeroTessera", numeroTessera);
+        return q.getResultList();
+    }
 
-    }*/
     //8- ricerca prestiti scaduti e non restituiti
     public List<Prestito> findPrestitiScadutiENonRestituiti() {
         LocalDate today = LocalDate.now();

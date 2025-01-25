@@ -15,7 +15,7 @@ public class Prestito {
 
     @ManyToOne
     @JoinColumn(name = "utente_id", nullable = false)
-    private Utente utente; // ogni prestito ha un solo utente
+    private Utente utente; // ogni prestito ha un solo utente ma utente può avere più prestiti
 
 
     @ManyToMany
