@@ -16,14 +16,21 @@ public class ArchivioDAO {
     public ArchivioDAO(EntityManager em) {
         this.em = em;
     }
+    //Ciao Umberto, come mi sembra di aver capito nella call di venerdì, ho creato un unico DAO,
+    // non so se ricordo bene, ad ogni modo sappi che non ho creato DAO separati solo per seguire la richiesta,
+    // ma sono consapevole che bisognerebbe crearli.
+
+
     //metodi standard del dao
 
     public ElementoCatalogo getElemById(long id) {
         return em.find(ElementoCatalogo.class, id);
     }
+
     public Utente getUserById(long id) {
         return em.find(Utente.class, id);
     }
+
     public Prestito getPrestitoById(long id) {
         return em.find(Prestito.class, id);
     }
@@ -34,7 +41,7 @@ public class ArchivioDAO {
         em.remove(e);
         em.getTransaction().commit();
     }
-    //-----------------metodi richiesti dalla traccia dell'esercizio
+    //----------------- metodi richiesti dalla traccia dell'esercizio --------------------
 
     //1- aggiunta elemento
     public void saveElemento(ElementoCatalogo e) {
@@ -98,11 +105,12 @@ public class ArchivioDAO {
         System.out.println("Elementi che nel titolo contengono la parola " + titolo + " :");
         return q.getResultList();
     }
+
     //7- ricerca elementi attualmente in prestito dato un numero di tessera utente
     public List<ElementoCatalogo> findElementiInPrestitoByTesseraUtente(long numeroTessera) {
         Query q = em.createQuery("SELECT e FROM Prestito p JOIN p.elementiPrestati e WHERE p.utente.numeroDiTessera = :numeroTessera AND p.dataRestituzioneEffettiva IS NULL");
         q.setParameter("numeroTessera", numeroTessera);
-        System.out.println("Elementi attualmente in prestito collegati al numero di tessera: " + numeroTessera );
+        System.out.println("Elementi attualmente in prestito collegati al numero di tessera: " + numeroTessera);
         return q.getResultList();
     }
 

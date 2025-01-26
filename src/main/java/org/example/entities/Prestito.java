@@ -21,7 +21,7 @@ public class Prestito {
     @ManyToMany
     @JoinTable(
             name = "prestiti_elementicatalogo",
-            joinColumns = @JoinColumn(name ="prestito_id"),
+            joinColumns = @JoinColumn(name = "prestito_id"),
             inverseJoinColumns = @JoinColumn(name = "elementocatalogo_id")
     )
     private List<ElementoCatalogo> elementiPrestati = new ArrayList<>(); //relazione

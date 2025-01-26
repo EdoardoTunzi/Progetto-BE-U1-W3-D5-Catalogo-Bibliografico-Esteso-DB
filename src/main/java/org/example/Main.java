@@ -50,7 +50,7 @@ public class Main {
         archivioDAO.saveUtente(utente1);
         archivioDAO.saveUtente(utente2);
         archivioDAO.saveUtente(utente3);
-//-------------------- Prestiti
+        //-------------------- Creazione Prestiti ----------------------
         List<ElementoCatalogo> prestitiUtente1 = new ArrayList<>();
         List<ElementoCatalogo> prestitiUtente2 = new ArrayList<>();
         List<ElementoCatalogo> prestiti1Utente3 = new ArrayList<>();
@@ -78,7 +78,7 @@ public class Main {
         archivioDAO.savePrestito(prestito2);
         archivioDAO.savePrestito(prestito3);
         archivioDAO.savePrestito(prestito4);
-        //--------------- esecuzione queries -------------
+        //------------------------------ Esecuzione queries ------------------------------------
 /*
         //2- rimozione elemento dato un codice isbn - OK
         archivioDAO.deleteElemByIsbn("3322110099887");
