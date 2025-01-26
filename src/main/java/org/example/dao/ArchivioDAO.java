@@ -24,7 +24,7 @@ public class ArchivioDAO {
     public Utente getUserById(long id) {
         return em.find(Utente.class, id);
     }
-    public Prestito getPrestById(long id) {
+    public Prestito getPrestitoById(long id) {
         return em.find(Prestito.class, id);
     }
 
@@ -37,7 +37,7 @@ public class ArchivioDAO {
     //-----------------metodi richiesti dalla traccia dell'esercizio
 
     //1- aggiunta elemento
-    public void saveEle(ElementoCatalogo e) {
+    public void saveElemento(ElementoCatalogo e) {
         em.getTransaction().begin();
         em.persist(e);
         em.getTransaction().commit();
@@ -49,7 +49,7 @@ public class ArchivioDAO {
         em.getTransaction().commit();
     }
 
-    public void savePrest(Prestito p) {
+    public void savePrestito(Prestito p) {
         em.getTransaction().begin();
         em.persist(p);
         em.getTransaction().commit();
@@ -57,7 +57,7 @@ public class ArchivioDAO {
 
 
     //2- rimozione elemento dato un codice isbn
-    public void deleteByIsbn(String isbn) {
+    public void deleteElemByIsbn(String isbn) {
         Query q = em.createQuery("SELECT e FROM ElementoCatalogo e WHERE e.isbn = :isbn");
         q.setParameter("isbn", isbn);
         ElementoCatalogo e = (ElementoCatalogo) q.getSingleResult();
@@ -71,6 +71,7 @@ public class ArchivioDAO {
     public ElementoCatalogo findByIsbn(String isbn) {
         Query q = em.createQuery("SELECT e FROM ElementoCatalogo e WHERE e.isbn = :isbn");
         q.setParameter("isbn", isbn);
+        System.out.println("Elemento con isbn " + isbn + " trovato:");
         return (ElementoCatalogo) q.getSingleResult();
     }
 
@@ -78,6 +79,7 @@ public class ArchivioDAO {
     public List<ElementoCatalogo> findByYear(int anno) {
         Query q = em.createQuery("SELECT e FROM ElementoCatalogo e WHERE e.annoPubblicazione = :anno");
         q.setParameter("anno", anno);
+        System.out.println("Elementi trovati con anno di pubblicazione " + anno + " :");
         return q.getResultList();
     }
 
@@ -85,6 +87,7 @@ public class ArchivioDAO {
     public List<ElementoCatalogo> findByAuthor(String nomeAutore) {
         Query q = em.createQuery("SELECT e FROM ElementoCatalogo e WHERE e.autore = :nomeAutore AND TYPE(e) = Libro");
         q.setParameter("nomeAutore", nomeAutore);
+        System.out.println("Elementi trovati, da autore " + nomeAutore + " :");
         return q.getResultList();
     }
 
@@ -92,12 +95,14 @@ public class ArchivioDAO {
     public List<ElementoCatalogo> findByTitle(String titolo) {
         Query q = em.createQuery("SELECT e FROM ElementoCatalogo e WHERE e.titolo LIKE :titolo");
         q.setParameter("titolo", "%" + titolo + "%");
+        System.out.println("Elementi che nel titolo contengono la parola " + titolo + " :");
         return q.getResultList();
     }
     //7- ricerca elementi attualmente in prestito dato un numero di tessera utente
     public List<ElementoCatalogo> findElementiInPrestitoByTesseraUtente(long numeroTessera) {
         Query q = em.createQuery("SELECT e FROM Prestito p JOIN p.elementiPrestati e WHERE p.utente.numeroDiTessera = :numeroTessera AND p.dataRestituzioneEffettiva IS NULL");
         q.setParameter("numeroTessera", numeroTessera);
+        System.out.println("Elementi attualmente in prestito collegati al numero di tessera: " + numeroTessera );
         return q.getResultList();
     }
 
@@ -106,6 +111,7 @@ public class ArchivioDAO {
         LocalDate today = LocalDate.now();
         Query q = em.createQuery("SELECT p FROM Prestito p WHERE p.dataRestituzioneEffettiva IS NULL AND p.dataRestituzionePrevista < :today");
         q.setParameter("today", today);
+        System.out.println("Prestiti attualmente scaduti e che non sono stati restituiti: ");
         return q.getResultList();
     }
 }
